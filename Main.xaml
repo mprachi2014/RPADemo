@@ -1,6 +1,6 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="742,2479.33333333333" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="980,3073.33333333333" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="22">
+    <scg:List x:TypeArguments="x:String" Capacity="44">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -23,6 +23,8 @@
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
       <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -48,9 +50,11 @@
       <AssemblyReference>UiPath.Excel</AssemblyReference>
       <AssemblyReference>UiPath.Mail</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="564,2314.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="990,3008.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="schoolName" />
       <Variable x:TypeArguments="x:Int32" Name="ClassNo" />
@@ -61,12 +65,12 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:InputDialog Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="522,92" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="School Name" Title="Please Enter School Name">
+    <ui:InputDialog Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="948,92" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="School Name" Title="Please Enter School Name">
       <ui:InputDialog.Result>
         <OutArgument x:TypeArguments="x:String">[schoolName]</OutArgument>
       </ui:InputDialog.Result>
     </ui:InputDialog>
-    <Assign sap:VirtualizedContainerService.HintSize="522,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign sap:VirtualizedContainerService.HintSize="948,62" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[CaseSchoolName]</OutArgument>
       </Assign.To>
@@ -74,85 +78,105 @@
         <InArgument x:TypeArguments="x:String">[schoolName.ToUpper]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InputDialog Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="522,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="Enter Class" Title="Please Enter Class">
+    <ui:InputDialog Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="948,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="Enter Class" Title="Please Enter Class">
       <ui:InputDialog.Result>
         <OutArgument x:TypeArguments="x:Int32">[ClassNo]</OutArgument>
       </ui:InputDialog.Result>
     </ui:InputDialog>
-    <If Condition="[ClassNo &gt; 10  or ClassNo = 0]" sap:VirtualizedContainerService.HintSize="522,52.6666666666667" sap2010:WorkflowViewState.IdRef="If_1">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-          <x:Boolean x:Key="IsPinned">False</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
+    <If Condition="[String.IsNullOrEmpty(schoolName) or String.IsNullOrEmpty(ClassNo.ToString)]" sap:VirtualizedContainerService.HintSize="948,2550.66666666667" sap2010:WorkflowViewState.IdRef="If_16">
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Sequence sap:VirtualizedContainerService.HintSize="376,186.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_7">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;There is no school for LKG&quot;]" />
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[&quot;There is no class or school name is mentioned.&quot;]" />
         </Sequence>
       </If.Then>
-    </If>
-    <If Condition="[SchoolName=&quot;svhs&quot; and ClassNo &lt; 7]" sap:VirtualizedContainerService.HintSize="522,304.666666666667" sap2010:WorkflowViewState.IdRef="If_2">
-      <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_5">
+      <If.Else>
+        <Sequence sap:VirtualizedContainerService.HintSize="526,2386.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_11">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_3" Text="[&quot;Meeting id is  22222&quot;]" />
+          <If Condition="[ClassNo &gt; 10  or ClassNo = 0]" sap:VirtualizedContainerService.HintSize="484,345.333333333333" sap2010:WorkflowViewState.IdRef="If_9">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_18" Text="[&quot;There is no school for LKG&quot;]" />
+              </Sequence>
+            </If.Then>
+          </If>
+          <If Condition="[SchoolName=&quot;svhs&quot; and ClassNo &lt; 7]" sap:VirtualizedContainerService.HintSize="484,345.333333333333" sap2010:WorkflowViewState.IdRef="If_10">
+            <If.Then>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_19" Text="[&quot;Meeting id is  22222&quot;]" />
+              </Sequence>
+            </If.Then>
+          </If>
+          <If Condition="[schoolName=&quot;svhs&quot; and (ClassNo &gt;=7 and ClassNo &lt;=9)]" sap:VirtualizedContainerService.HintSize="484,254.666666666667" sap2010:WorkflowViewState.IdRef="If_11">
+            <If.Then>
+              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_20" Text="[&quot;There are no online classes&quot;]" />
+            </If.Then>
+          </If>
+          <If Condition="[SchoolName=&quot;bvsr&quot; and ClassNo &lt; 5]" sap:VirtualizedContainerService.HintSize="484,345.333333333333" sap2010:WorkflowViewState.IdRef="If_12">
+            <If.Then>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_21" Text="[&quot;Meeting id is 33333 &quot;]" />
+              </Sequence>
+            </If.Then>
+          </If>
+          <If Condition="[schoolName=&quot;bvsr&quot; and (ClassNo &gt;=5 and ClassNo &lt;=9)]" sap:VirtualizedContainerService.HintSize="484,254.666666666667" sap2010:WorkflowViewState.IdRef="If_13">
+            <If.Then>
+              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_22" Text="[&quot;There are no online classes&quot;]" />
+            </If.Then>
+          </If>
+          <If Condition="[(SchoolName =&quot;bvsr&quot; or SchoolName=&quot;svhs&quot;) and ClassNo=10]" sap:VirtualizedContainerService.HintSize="484,254.666666666667" sap2010:WorkflowViewState.IdRef="If_14">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_23" Text="[&quot;Meeting id is 11111&quot;]" />
+            </If.Then>
+          </If>
+          <If Condition="[SchoolName=&quot;rbps&quot;]" sap:VirtualizedContainerService.HintSize="484,254.666666666667" sap2010:WorkflowViewState.IdRef="If_15">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_24" Text="[&quot;There are no online classes for this&quot;]" />
+            </If.Then>
+          </If>
         </Sequence>
-      </If.Then>
+      </If.Else>
     </If>
-    <If Condition="[schoolName=&quot;svhs&quot; and (ClassNo &gt;=7 and ClassNo &lt;=9)]" sap:VirtualizedContainerService.HintSize="522,214" sap2010:WorkflowViewState.IdRef="If_8">
-      <If.Then>
-        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_16" Text="[&quot;There are no online classes&quot;]" />
-      </If.Then>
-    </If>
-    <If Condition="[SchoolName=&quot;bvsr&quot; and ClassNo &lt; 5]" sap:VirtualizedContainerService.HintSize="522,304.666666666667" sap2010:WorkflowViewState.IdRef="If_3">
-      <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,150.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_6">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_4" Text="[&quot;Meeting id is 33333 &quot;]" />
-        </Sequence>
-      </If.Then>
-    </If>
-    <If Condition="[schoolName=&quot;bvsr&quot; and (ClassNo &gt;=5 and ClassNo &lt;=9)]" sap:VirtualizedContainerService.HintSize="522,214" sap2010:WorkflowViewState.IdRef="If_7">
-      <If.Then>
-        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_15" Text="[&quot;There are no online classes&quot;]" />
-      </If.Then>
-    </If>
-    <If Condition="[(SchoolName =&quot;bvsr&quot; or SchoolName=&quot;svhs&quot;) and ClassNo=10]" sap:VirtualizedContainerService.HintSize="522,214" sap2010:WorkflowViewState.IdRef="If_4">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          <x:Boolean x:Key="IsPinned">False</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-      <If.Then>
-        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_5" Text="[&quot;Meeting id is 11111&quot;]" />
-      </If.Then>
-    </If>
-    <If Condition="[SchoolName=&quot;rbps&quot;]" sap:VirtualizedContainerService.HintSize="522,214" sap2010:WorkflowViewState.IdRef="If_6">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          <x:Boolean x:Key="IsPinned">False</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-      <If.Then>
-        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_7" Text="[&quot;There are no online classes for this&quot;]" />
-      </If.Then>
-    </If>
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="522,58.6666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_17" Text="[&quot;This is online school demo&quot;]" />
   </Sequence>
 </Activity>
